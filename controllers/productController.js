@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const productService = require("../services/productService");
+
 
 const router = Router();
 
@@ -13,10 +15,22 @@ router.get("/create", (req, res) => {
 router.post("/create", (req, res) => {
     let { name, description, imageUrl, difficultyLevel } = req.body;
 
-    console.log(name);
-    console.log(description);
-    console.log(imageUrl);
-    console.log(difficultyLevel);
+    if(name.length < 2){
+        res.write("<h1>Incorret length name. Need to be more then two characters<h1>");
+        res.end();
+        return
+    } else if (description.length < 2){
+        res.write("<h1>Incorret length name. Need to be more then two characters<h1>");
+        res.end();
+        return
+    } else if (imageUrl.length < 2){
+        res.write("<h1>Incorret length name. Need to be more then two characters<h1>");
+        res.end();
+        return
+    }
+
+    productService.create(req.body);
+    res.redirect("/products");
 });
 
 router.get("/details/:productId", (req, res) => {
